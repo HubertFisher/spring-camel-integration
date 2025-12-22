@@ -1,5 +1,7 @@
 plugins {
     id("java")
+    id("org.springframework.boot") version "3.2.0"
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "org.example"
@@ -13,24 +15,23 @@ dependencies {
     // =================== SPRING BOOT ===================
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation ("org.springframework.boot:spring-boot-starter-hateoas")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     // =================== APACHE CAMEL ===================
-    implementation("org.apache.camel.springboot:camel-spring-boot-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-jackson-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-jpa-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-ftp-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-sql-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-bean-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-file-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-timer-starter:3.21.0")
-    implementation("org.apache.camel.springboot:camel-micrometer-starter:3.21.0")
+    implementation("org.apache.camel.springboot:camel-spring-boot-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-jackson-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-jpa-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-ftp-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-bean-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-file-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-timer-starter:4.0.0")
+    implementation("org.apache.camel.springboot:camel-micrometer-starter:4.0.0")
 
     // =================== DATABASE ===================
     runtimeOnly("org.postgresql:postgresql")
-    implementation("org.hibernate:hibernate-core:6.2.6")
 
     // =================== UTILITIES ===================
     compileOnly("org.projectlombok:lombok")
