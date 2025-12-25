@@ -7,38 +7,26 @@ services:
     container_name: spring-dev
     ports:
       - "8080:8080"
-      - "8000:8000"
     environment:
       - SPRING_PROFILES_ACTIVE=dev
-      - SPRING_DEVTOOLS_RESTART_TRIGGER_FILE=.reload
-      - SPRING_DATASOURCE_DATABASE=mydb
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydb
-      - SPRING_DATASOURCE_USERNAME=devuser
-      - SPRING_DATASOURCE_PASSWORD=devpass
-      - SPRING_REDIS_HOST=redis
-      - SPRING_DEVTOOLS_RESTART_EXCLUDE=static/**,public/**,build/**,.gradle/**
+    env_file:
+      - .env
     volumes:
       - .:/app
-      - /app/build
-      - /app/.gradle
-      - gradle-cache:/home/gradle/.gradle
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_started
     networks:
       - dev-network
-    command: ./gradlew bootRun --stacktrace --info --no-daemon --no-watch-fs
     restart: unless-stopped
 
   postgres:
     image: postgres:15-alpine
     container_name: postgres-dev
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: devuser
-      POSTGRES_PASSWORD: devpass
+      POSTGRES_DB: ${SPRING_DATASOURCE_DATABASE_NAME}
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -46,19 +34,23 @@ services:
     networks:
       - dev-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U devuser -d mydb"]
+      test: [ "CMD-SHELL", "pg_isready -U ${SPRING_DATASOURCE_USERNAME} -d ${SPRING_DATASOURCE_DATABASE_NAME}" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  redis:
-    image: redis:7-alpine
-    container_name: redis-dev
+
+  ftp:
+    volumes:
+      - ftp-data:/ftp/springcamelintegration
+    image: "delfer/alpine-ftp-server"
     ports:
-      - "6379:6379"
+      - "21:21"
+      - "21000-21010:21000-21010"
+    environment:
+      - USERS=${FTP_USERNAME}|${FTP_PASSWORD}|${FTP_USER_HOME}|${FTP_USER_UID}|${FTP_USER_GID}
     networks:
       - dev-network
-    command: redis-server --appendonly yes
 
   adminer:
     image: adminer
@@ -73,6 +65,7 @@ services:
 volumes:
   gradle-cache:
   postgres-data:
+  ftp-data:
 
 networks:
   dev-network:

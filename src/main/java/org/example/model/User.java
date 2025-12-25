@@ -20,10 +20,10 @@ public class User extends RepresentationModel<User> {
     private Long id;
 
     @Column(name = "first_name", nullable = false, length = 50)
-    private String name;
+    private String firstName;
 
     @Column(name = "last_name", nullable = false, length = 50)
-    private String surname;
+    private String lastName;
 
     @Column(name = "money_spent")
     private Double moneySpent = 0.0;

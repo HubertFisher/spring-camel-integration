@@ -1,16 +1,8 @@
 spring:
-  devtools:
-    restart:
-      enabled: true
-      additional-paths: ./src/main/java
-      exclude: static/**,public/**
-    livereload:
-      enabled: true
-
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/mydb}
-    username: ${SPRING_DATASOURCE_USERNAME:devuser}
-    password: ${SPRING_DATASOURCE_PASSWORD:devpass}
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     hikari:
       maximum-pool-size: 5
 
@@ -25,19 +17,32 @@ spring:
         jdbc:
           batch_size: 5
 
-  data:
-    redis:
-      host: ${SPRING_REDIS_HOST:localhost}
-      port: 6379
-
 logging:
   level:
-    org.springframework: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    com.myapp: DEBUG
+    org.springframework: INFO
+    org.hibernate.SQL: WARN
+    org.hibernate.type.descriptor.sql.BasicBinder: WARN
+    org.example: INFO
+    org.apache.camel: INFO
+    root: INFO
 
 server:
   port: 8080
   error:
     include-stacktrace: always
+
+ftp:
+  host: ${FTP_HOST}
+  username: ${FTP_USERNAME}
+  password: ${FTP_PASSWORD}
+  directory: ${FTP_DIRECTORY}
+
+camel:
+  springboot:
+    name: UserExportService
+  dataformat:
+    jackson:
+      auto-discover-object-mapper: true
+      date-format: yyyy-MM-dd HH:mm:ss
+export:
+  schedule: ${EXPORT_SCHEDULE:0 0 2 * * ?}
