@@ -1,6 +1,5 @@
 package org.example.dto;
 
-import org.example.model.User;
 import lombok.Data;
 import java.util.Date;
 
@@ -22,5 +21,4 @@ public class ExportUser {
     private void setExportDate() {
         this.exportDate = new Date();
     }
-    public ExportUser() {}
 }

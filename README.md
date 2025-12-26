@@ -8,7 +8,6 @@ Automated ETL pipeline for exporting user data from PostgreSQL to JSON files on 
 - Secure FTP upload with retry mechanism
 - Status tracking to prevent duplicate exports
 - Docker containerization
-- Comprehensive monitoring endpoints
 
 ## Tech Stack
 - Java 17

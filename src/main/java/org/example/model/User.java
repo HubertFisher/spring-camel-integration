@@ -1,6 +1,5 @@
 package org.example.model;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.hateoas.RepresentationModel;
 import jakarta.persistence.*;
